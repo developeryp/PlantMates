@@ -125,7 +125,7 @@
         <div class="success-container" id="successContainer">
             <div class="success-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
             <h2>Passwort geändert! ✓</h2>
-            <p>Dein Passwort wurde erfolgreich aktualisiert.<br>Du kannst dich jetzt in Plantr mit deinem neuen Passwort anmelden.</p>
+            <p>Dein Passwort wurde erfolgreich aktualisiert.<br>Alle anderen Geräte wurden abgemeldet.<br>Du kannst dich jetzt in Plantr mit deinem neuen Passwort anmelden.</p>
         </div>
         <div class="expired-container" id="expiredContainer">
             <div class="expired-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg></div>
@@ -185,8 +185,13 @@
             btn.disabled = true;
             btn.innerHTML = '<span class="loading"></span>Wird geändert...';
             try {
+                // Passwort ändern
                 var res = await sbClient.auth.updateUser({ password: pw1.value });
                 if (res.error) throw res.error;
+                
+                // ✅ Alle anderen Sessions ausloggen
+                await sbClient.auth.signOut({ scope: 'others' });
+                
                 document.getElementById('formContainer').style.display = 'none';
                 document.getElementById('successContainer').style.display = 'block';
             } catch (err) {
