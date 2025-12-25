@@ -464,41 +464,25 @@
 
    
 
-        (async function init() {
+
+
+(async function init() {
   try {
     const url = new URL(window.location.href);
-    const code = url.searchParams.get("code");
+    const tokenHash = url.searchParams.get("token_hash");
+    const type = url.searchParams.get("type");
     
-    if (code) {
-      // PKCE: Supabase liest den Code automatisch aus der URL
-      const { data, error } = await sbClient.auth.exchangeCodeForSession(code);
+    if (tokenHash && type === "recovery") {
+      const { error } = await sbClient.auth.verifyOtp({
+        token_hash: tokenHash,
+        type: 'recovery'
+      });
       if (error) {
-        console.error("Code exchange error:", error);
+        console.error("Verify error:", error);
         showExpired();
         return;
       }
-      // Erfolgreich - Session ist jetzt aktiv
-      console.log("Session established:", data);
-      return;
-    }
-
-    // Fallback für Implicit Flow (Hash)
-    const hash = window.location.hash.startsWith("#") ? window.location.hash.slice(1) : "";
-    const params = new URLSearchParams(hash);
-    const type = params.get("type");
-    const access_token = params.get("access_token");
-    const refresh_token = params.get("refresh_token");
-
-    if (type === "recovery" && access_token && refresh_token) {
-      const { error } = await sbClient.auth.setSession({ access_token, refresh_token });
-      if (error) { console.error(error); showExpired(); }
-      return;
-    }
-
-    // Prüfe ob bereits eine Session existiert
-    const { data: { session } } = await sbClient.auth.getSession();
-    if (session) {
-      console.log("Existing session found");
+      // Erfolg - User kann jetzt Passwort ändern
       return;
     }
 
@@ -508,6 +492,10 @@
     showExpired();
   }
 })();
+
+
+
+        
 
 
 
