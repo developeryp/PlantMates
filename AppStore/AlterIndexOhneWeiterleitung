@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PlantMates – im App Store</title>
+  <meta name="description" content="PlantMates – jetzt im App Store herunterladen." />
+
+  <!-- Optional: iOS Smart App Banner -->
+  <meta name="apple-itunes-app" content="app-id=6757171443" />
+
+  <style>
+    :root{
+      /* aus deinem Logo abgeleitet */
+      --accent: #7CBC53;     /* Hauptgrün */
+      --accentDark: #5FAF3D; /* dunkleres Grün */
+      --bgTop: #07130e;
+      --bgBottom: #06110c;
+
+      --card: rgba(255,255,255,0.06);
+      --border: rgba(255,255,255,0.10);
+
+      --text: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.68);
+
+      --radius: 22px;
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+      color:var(--text);
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      padding:24px;
+
+      background:
+        radial-gradient(900px 650px at 20% 10%, rgba(124,188,83,0.22), transparent 55%),
+        radial-gradient(800px 600px at 85% 25%, rgba(124,188,83,0.12), transparent 60%),
+        linear-gradient(180deg, var(--bgTop), var(--bgBottom));
+    }
+
+    .wrap{ width:100%; max-width:560px; }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:30px 26px;
+      box-shadow: 0 22px 70px rgba(0,0,0,0.45);
+      backdrop-filter: blur(10px);
+      text-align:center;
+    }
+
+    .icon{
+      width:88px;
+      height:88px;
+      border-radius:22px; /* iOS-Style */
+      object-fit:cover;
+      display:block;
+      margin: 0 auto 14px auto;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+    }
+
+    h1{
+      margin: 0;
+      font-size: 28px;
+      letter-spacing: -0.3px;
+      line-height: 1.15;
+    }
+
+    p{
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 15.5px;
+      line-height: 1.55;
+    }
+
+    .cta{
+      margin-top: 18px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap: 10px;
+    }
+
+    .badge{
+      height: 48px;
+      width: auto;
+      display:block;
+    }
+
+    .fallback{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 12px 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(124,188,83,0.40);
+      background: rgba(124,188,83,0.14);
+      color: rgba(255,255,255,0.92);
+      text-decoration:none;
+      font-weight: 650;
+      min-width: 220px;
+    }
+    .fallback:hover{
+      background: rgba(124,188,83,0.18);
+    }
+
+    .fine{
+      margin-top: 16px;
+      font-size: 12.5px;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.5;
+    }
+
+    .divider{
+      height: 1px;
+      background: rgba(255,255,255,0.10);
+      margin: 18px 0 14px 0;
+    }
+
+    .footer{
+      font-size: 12.5px;
+      color: rgba(255,255,255,0.55);
+      display:flex;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .footer a{
+      color: rgba(255,255,255,0.70);
+      text-decoration:none;
+      border-bottom: 1px solid rgba(255,255,255,0.22);
+      padding-bottom:2px;
+    }
+    .footer a:hover{ color: rgba(255,255,255,0.92); }
+
+    @media (min-width: 760px){
+      .card{ padding: 34px 30px; }
+      .badge{ height: 52px; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="wrap">
+    <section class="card" aria-label="PlantMates App Store Landingpage">
+      <!-- Dein Logo (Datei muss im selben Ordner liegen) -->
+      <img class="icon" src="PlantMates.jpg" alt="PlantMates Logo" />
+
+      <h1>PlantMates</h1>
+      <p>Lade die App jetzt im App Store herunter.</p>
+
+      <div class="cta">
+        <!-- Offizielles Apple Badge (DE) -->
+        <a id="appstoreLink" href="#" rel="noopener">
+          <img
+            class="badge"
+            alt="Im App Store laden"
+            src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/de-de?size=250x83"
+          />
+        </a>
+
+        <!-- Fallback-Button (falls Badge nicht lädt) -->
+        <a id="fallbackLink" class="fallback" href="#" rel="noopener">Im App Store öffnen</a>
+      </div>
+
+      <p class="fine">Keine Cookies, kein Tracking – nur Weiterleitung zum App Store.</p>
+
+      <div class="divider"></div>
+
+      <div class="footer">
+        <span>© <span id="year"></span> PlantMates</span>
+        <!-- Optional: Links, wenn du willst -->
+        <!-- <a href="/Datenschutzerklaerung.html">Datenschutz</a> -->
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Dein App-Store-Link (wie von dir)
+    const APPSTORE_URL = "https://apps.apple.com/app/apple-store/id6757171443?pt=126087453&ct=MetaAds&mt=8";
+
+    // Wenn du wirklich alles clean halten willst: keine Parameter weiterreichen
+    const FORWARD_QUERY_PARAMS = false;
+
+    function buildTargetUrl() {
+      const url = new URL(APPSTORE_URL);
+
+      if (FORWARD_QUERY_PARAMS) {
+        const qs = new URLSearchParams(window.location.search);
+        const protectedKeys = new Set(["pt", "ct", "mt"]); // nicht überschreiben
+
+        for (const [k, v] of qs.entries()) {
+          if (protectedKeys.has(k)) continue;
+          if (!url.searchParams.has(k)) url.searchParams.set(k, v);
+        }
+      }
+      return url.toString();
+    }
+
+    const target = buildTargetUrl();
+    document.getElementById("appstoreLink").href = target;
+    document.getElementById("fallbackLink").href = target;
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
